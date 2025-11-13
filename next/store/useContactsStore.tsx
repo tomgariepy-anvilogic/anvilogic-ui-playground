@@ -4,57 +4,50 @@ import { createContext, useContext, useRef, ReactNode } from "react";
 import { createStore, useStore } from "zustand";
 import { User } from "@/lib/types";
 
-// Mock API delay helper
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// Mock database - shared state across all API calls
-const mockDatabase: User[] = [
-  { id: 1, name: "John Doe", email: "john@example.com", age: 30 },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", age: 25 },
-  { id: 3, name: "Bob Johnson", email: "bob@example.com" },
-];
-
-// Mock API functions
-const mockApi = {
+// API functions that call Next.js API routes
+const contactApi = {
   fetchContacts: async (): Promise<User[]> => {
-    await delay(800);
-    // Return a copy of the data
-    return mockDatabase.map((contact) => ({ ...contact }));
+    const response = await fetch("/api/contacts");
+    if (!response.ok) {
+      throw new Error("Failed to fetch contacts");
+    }
+    return response.json();
   },
+
   addContact: async (contact: Omit<User, "id">): Promise<User> => {
-    await delay(500);
+    const response = await fetch("/api/contacts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(contact),
+    });
 
-    const newContact: User = {
-      id: Date.now(),
-      ...contact,
-    };
+    if (!response.ok) {
+      throw new Error("Failed to add contact");
+    }
 
-    // Add to mock database
-    mockDatabase.push(newContact);
-
-    return newContact;
+    return response.json();
   },
+
   updateContact: async (id: number, updates: Partial<User>): Promise<void> => {
-    await delay(400);
+    const response = await fetch(`/api/contacts/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates),
+    });
 
-    // Simulate occasional API error (10% chance)
-    if (Math.random() < 0.1) {
-      throw new Error("Failed to update contact");
-    }
-
-    // Update in mock database
-    const contact = mockDatabase.find((c) => c.id === id);
-    if (contact) {
-      Object.assign(contact, updates);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Failed to update contact");
     }
   },
-  deleteContact: async (id: number): Promise<void> => {
-    await delay(400);
 
-    // Remove from mock database
-    const index = mockDatabase.findIndex((c) => c.id === id);
-    if (index !== -1) {
-      mockDatabase.splice(index, 1);
+  deleteContact: async (id: number): Promise<void> => {
+    const response = await fetch(`/api/contacts/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete contact");
     }
   },
 };
@@ -90,7 +83,7 @@ export const createContactsStore = () => {
       (async () => {
         set({ isLoading: true, error: null });
         try {
-          const contacts = await mockApi.fetchContacts();
+          const contacts = await contactApi.fetchContacts();
           set({ contacts, isLoading: false, isFetched: true });
         } catch (error) {
           set({
@@ -122,7 +115,7 @@ export const createContactsStore = () => {
       }));
 
       try {
-        const newContact = await mockApi.addContact(contactData);
+        const newContact = await contactApi.addContact(contactData);
         // Replace temp contact with real contact from API
         set((state) => ({
           contacts: state.contacts.map((c) =>
@@ -151,7 +144,7 @@ export const createContactsStore = () => {
       }));
 
       try {
-        await mockApi.updateContact(id, updates);
+        await contactApi.updateContact(id, updates);
       } catch (error) {
         // Rollback on error
         set((state) => ({
@@ -173,7 +166,7 @@ export const createContactsStore = () => {
       }));
 
       try {
-        await mockApi.deleteContact(id);
+        await contactApi.deleteContact(id);
       } catch (error) {
         // Rollback - restore contact on error
         set((state) => ({

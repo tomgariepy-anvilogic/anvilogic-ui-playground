@@ -55,6 +55,16 @@ npm run dev
 ```
 next/
 ├── app/                    # Next.js App Router pages
+│   ├── api/               # API routes (Next.js Route Handlers)
+│   │   ├── tasks/        # Task API endpoints
+│   │   │   └── [listId]/
+│   │   │       ├── route.ts          # GET, POST /api/tasks/[listId]
+│   │   │       └── [taskId]/
+│   │   │           └── route.ts      # PATCH, DELETE /api/tasks/[listId]/[taskId]
+│   │   └── contacts/     # Contact API endpoints
+│   │       ├── route.ts              # GET, POST /api/contacts
+│   │       └── [id]/
+│   │           └── route.ts          # PATCH, DELETE /api/contacts/[id]
 │   ├── tasks/             # Task management page
 │   ├── contacts/          # Contacts page
 │   ├── counter/           # Counter example page
@@ -72,19 +82,50 @@ next/
 │   ├── useUserStore.ts
 │   └── useUIStore.ts
 ├── lib/                  # Utility functions and types
-│   └── types.ts
+│   ├── types.ts
+│   ├── api-utils.ts      # Shared API utilities
+│   └── mock-db/          # Mock database (in-memory)
+│       ├── tasks.ts
+│       └── contacts.ts
 └── public/              # Static assets
 ```
+
+## API Routes
+
+The app includes proper Next.js API routes for a realistic architecture:
+
+### Tasks API
+
+- `GET /api/tasks/[listId]` - Fetch all tasks for a list
+- `POST /api/tasks/[listId]` - Create a new task
+- `PATCH /api/tasks/[listId]/[taskId]` - Update task (toggle completion or edit text)
+- `DELETE /api/tasks/[listId]/[taskId]` - Delete a task
+
+### Contacts API
+
+- `GET /api/contacts` - Fetch all contacts
+- `POST /api/contacts` - Create a new contact
+- `PATCH /api/contacts/[id]` - Update a contact
+- `DELETE /api/contacts/[id]` - Delete a contact
+
+### Mock Database
+
+All API routes use an in-memory mock database located in `lib/mock-db/`:
+- Simulates network latency (300-800ms delays)
+- Includes random error simulation (10% chance) for testing error handling
+- Data persists during the session but resets on server restart
 
 ## State Management
 
 This app uses Zustand for state management with the following stores:
 
-- **TaskStore**: Manages tasks with optimistic updates and error handling
-- **ContactsStore**: Handles contact CRUD operations
+- **TaskStore**: Manages tasks with optimistic updates and error handling, calls Task API
+- **ContactsStore**: Handles contact CRUD operations, calls Contacts API
 - **CounterStore**: Simple counter with localStorage persistence
 - **UserStore**: Manages user data and task lists
 - **UIStore**: Handles UI state like selected list
+
+All stores implement optimistic updates with automatic rollback on API failures.
 
 ## Features in Detail
 

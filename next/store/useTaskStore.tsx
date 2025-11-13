@@ -4,160 +4,91 @@ import { createContext, useContext, useRef, ReactNode } from "react";
 import { createStore, useStore } from "zustand";
 import { TaskItem } from "@/lib/types";
 
-// Mock API delay helper
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// Mock database - shared state across all API calls
-const mockDatabase: Record<number, TaskItem[]> = {
-  1: [
-    {
-      id: 1,
-      text: "Review quarterly reports",
-      completed: false,
-      createdAt: new Date("2024-01-15"),
-    },
-    {
-      id: 2,
-      text: "Team meeting at 2pm",
-      completed: true,
-      createdAt: new Date("2024-01-16"),
-    },
-    {
-      id: 3,
-      text: "Update project documentation",
-      completed: false,
-      createdAt: new Date("2024-01-17"),
-    },
-  ],
-  2: [
-    {
-      id: 4,
-      text: "Call dentist for appointment",
-      completed: false,
-      createdAt: new Date("2024-01-10"),
-    },
-    {
-      id: 5,
-      text: "Pay utility bills",
-      completed: true,
-      createdAt: new Date("2024-01-11"),
-    },
-    {
-      id: 6,
-      text: "Organize closet",
-      completed: false,
-      createdAt: new Date("2024-01-12"),
-    },
-    {
-      id: 7,
-      text: "Book vacation tickets",
-      completed: false,
-      createdAt: new Date("2024-01-13"),
-    },
-  ],
-  3: [
-    {
-      id: 8,
-      text: "Buy groceries",
-      completed: false,
-      createdAt: new Date("2024-01-20"),
-    },
-    {
-      id: 9,
-      text: "Get coffee beans",
-      completed: true,
-      createdAt: new Date("2024-01-20"),
-    },
-  ],
-};
-
-// Mock API functions
-const mockApi = {
+// API functions that call Next.js API routes
+const taskApi = {
   fetchTasks: async (listId: number | null): Promise<TaskItem[]> => {
-    await delay(800);
+    if (!listId) return [];
 
-    // Return a copy of the data to prevent direct mutation
-    if (listId && mockDatabase[listId]) {
-      // Deep clone and restore Date objects
-      return mockDatabase[listId].map((task) => ({
-        ...task,
-        createdAt: new Date(task.createdAt),
-      }));
+    const response = await fetch(`/api/tasks/${listId}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch tasks");
     }
 
-    // Initialize empty array for new lists
-    if (listId) {
-      mockDatabase[listId] = [];
-    }
-
-    return [];
+    const tasks = await response.json();
+    // Convert date strings back to Date objects
+    return tasks.map((task: any) => ({
+      ...task,
+      createdAt: new Date(task.createdAt),
+    }));
   },
+
   addTask: async (listId: number | null, text: string): Promise<TaskItem> => {
-    await delay(500);
+    if (!listId) throw new Error("No list selected");
 
-    const newTask: TaskItem = {
-      id: Date.now(),
-      text,
-      completed: false,
-      createdAt: new Date(),
-    };
+    const response = await fetch(`/api/tasks/${listId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
 
-    // Add to mock database
-    if (listId) {
-      if (!mockDatabase[listId]) {
-        mockDatabase[listId] = [];
-      }
-      mockDatabase[listId].push(newTask);
+    if (!response.ok) {
+      throw new Error("Failed to add task");
     }
 
-    return newTask;
+    const task = await response.json();
+    return {
+      ...task,
+      createdAt: new Date(task.createdAt),
+    };
   },
+
   toggleTask: async (
     listId: number | null,
     id: number,
     completed: boolean
   ): Promise<void> => {
-    await delay(300);
+    if (!listId) throw new Error("No list selected");
 
-    // Simulate occasional API error (10% chance)
-    if (Math.random() < 0.1) {
-      throw new Error("Failed to update task");
-    }
+    const response = await fetch(`/api/tasks/${listId}/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ completed }),
+    });
 
-    // Update in mock database
-    if (listId && mockDatabase[listId]) {
-      const task = mockDatabase[listId].find((t) => t.id === id);
-      if (task) {
-        task.completed = completed;
-      }
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Failed to toggle task");
     }
   },
+
   updateTask: async (
     listId: number | null,
     id: number,
     text: string
   ): Promise<void> => {
-    await delay(400);
+    if (!listId) throw new Error("No list selected");
 
-    // Simulate occasional API error (10% chance)
-    if (Math.random() < 0.1) {
-      throw new Error("Failed to update task");
-    }
+    const response = await fetch(`/api/tasks/${listId}/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
 
-    // Update in mock database
-    if (listId && mockDatabase[listId]) {
-      const task = mockDatabase[listId].find((t) => t.id === id);
-      if (task) {
-        task.text = text;
-      }
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Failed to update task");
     }
   },
-  deleteTask: async (listId: number | null, id: number): Promise<void> => {
-    await delay(400);
 
-    // Remove from mock database
-    if (listId && mockDatabase[listId]) {
-      mockDatabase[listId] = mockDatabase[listId].filter((t) => t.id !== id);
+  deleteTask: async (listId: number | null, id: number): Promise<void> => {
+    if (!listId) throw new Error("No list selected");
+
+    const response = await fetch(`/api/tasks/${listId}/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete task");
     }
   },
 };
@@ -199,7 +130,7 @@ const createTaskStore = (listId: number | null, listName: string) => {
       (async () => {
         set({ isLoading: true, error: null });
         try {
-          const tasks = await mockApi.fetchTasks(state.listId);
+          const tasks = await taskApi.fetchTasks(state.listId);
           set({ tasks, isLoading: false, isFetched: true });
         } catch (error) {
           set({
@@ -231,7 +162,7 @@ const createTaskStore = (listId: number | null, listName: string) => {
       }));
 
       try {
-        const newTask = await mockApi.addTask(get().listId, text);
+        const newTask = await taskApi.addTask(get().listId, text);
         // Replace temp task with real task from API
         set((state) => ({
           tasks: state.tasks.map((t) => (t.id === tempId ? newTask : t)),
@@ -257,7 +188,7 @@ const createTaskStore = (listId: number | null, listName: string) => {
       }));
 
       try {
-        await mockApi.toggleTask(get().listId, id, !task.completed);
+        await taskApi.toggleTask(get().listId, id, !task.completed);
       } catch (error) {
         // Rollback on error
         set((state) => ({
@@ -283,7 +214,7 @@ const createTaskStore = (listId: number | null, listName: string) => {
       }));
 
       try {
-        await mockApi.updateTask(get().listId, id, text);
+        await taskApi.updateTask(get().listId, id, text);
       } catch (error) {
         // Rollback on error
         set((state) => ({
@@ -307,7 +238,7 @@ const createTaskStore = (listId: number | null, listName: string) => {
       }));
 
       try {
-        await mockApi.deleteTask(get().listId, id);
+        await taskApi.deleteTask(get().listId, id);
       } catch (error) {
         // Rollback - restore task on error
         set((state) => ({
@@ -352,4 +283,3 @@ export const useTaskStore = <T,>(selector: (state: TaskStore) => T): T => {
   }
   return useStore(store, selector);
 };
-
