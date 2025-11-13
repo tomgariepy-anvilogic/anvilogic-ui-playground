@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#61dafb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3178c6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle (React cyan to TypeScript blue gradient) -->
+  <circle cx="50" cy="50" r="48" fill="url(#bgGradient)"/>
+  
+  <!-- React atom symbol (simplified) -->
+  <!-- Center dot -->
+  <circle cx="50" cy="50" r="6" fill="white"/>
+  
+  <!-- Electron orbits -->
+  <ellipse cx="50" cy="50" rx="35" ry="15" 
+           fill="none" stroke="white" stroke-width="3" opacity="0.8"/>
+  <ellipse cx="50" cy="50" rx="35" ry="15" 
+           fill="none" stroke="white" stroke-width="3" opacity="0.8"
+           transform="rotate(60 50 50)"/>
+  <ellipse cx="50" cy="50" rx="35" ry="15" 
+           fill="none" stroke="white" stroke-width="3" opacity="0.8"
+           transform="rotate(120 50 50)"/>
+</svg>
+

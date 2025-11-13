@@ -1,0 +1,248 @@
+.task-list {
+  max-width: 100%;
+  min-width: 500px;
+  margin: 0;
+}
+
+.task-list__add-section {
+  margin-top: 1rem;
+}
+
+.task-list__add {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.task-list__input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.task-list__input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.task-list__input--error {
+  border-color: #dc3545;
+}
+
+.task-list__input--error:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.task-list__error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  margin-left: 0.25rem;
+}
+
+.task-list h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.task-list__empty {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+.task-list__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1rem;
+  color: #666;
+}
+
+.task-list__loading p {
+  margin: 0;
+  font-style: italic;
+}
+
+.task-list__spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: task-list-spin 1s linear infinite;
+}
+
+@keyframes task-list-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.task-list__items {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  animation: task-item-fade-in 0.3s ease-out forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+@keyframes task-item-fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.task-item--deleting {
+  animation: task-item-fade-out 0.3s ease-out forwards !important;
+}
+
+@keyframes task-item-fade-out {
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+    max-height: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+.task-item__content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.task-item__checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.task-item__text {
+  flex: 1;
+  font-size: 1rem;
+}
+
+.task-item__text--completed {
+  text-decoration: line-through;
+  color: #666;
+}
+
+.task-item__date {
+  font-size: 0.875rem;
+  color: #888;
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+.task-item__edit-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.task-item__edit-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.task-item__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .task-list h2 {
+    color: #fff;
+  }
+
+  .task-list__empty {
+    color: #ccc;
+  }
+
+  .task-list__loading {
+    color: #ccc;
+  }
+
+  .task-list__spinner {
+    border-color: #333;
+    border-top-color: #5ba3ff;
+  }
+
+  .task-item {
+    background-color: #1a1a1a;
+    border-color: #333;
+  }
+
+  .task-item__text--completed {
+    color: #999;
+  }
+
+  .task-item__date {
+    color: #aaa;
+  }
+
+  .task-list__input {
+    background: #2a2a2a;
+    border-color: #444;
+    color: #fff;
+  }
+
+  .task-list__input:focus {
+    border-color: #5ba3ff;
+    box-shadow: 0 0 0 3px rgba(91, 163, 255, 0.1);
+  }
+
+  .task-list__input--error {
+    border-color: #dc3545;
+  }
+
+  .task-list__input--error:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+  }
+
+  .task-list__error {
+    color: #ff6b6b;
+  }
+
+  .task-item__edit-input {
+    background: #2a2a2a;
+    border-color: #444;
+    color: #fff;
+  }
+
+  .task-item__edit-input:focus {
+    border-color: #5ba3ff;
+    box-shadow: 0 0 0 3px rgba(91, 163, 255, 0.1);
+  }
+}
+

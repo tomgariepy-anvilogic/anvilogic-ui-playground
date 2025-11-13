@@ -1,0 +1,251 @@
+.tasks-page {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  height: calc(100vh - 200px);
+}
+
+.tasks-page__sidebar {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.tasks-page__sidebar-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.tasks-page__sidebar-header h2 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.tasks-page__user {
+  margin: 0;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.tasks-page__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.tasks-page__list-item-wrapper {
+  margin-bottom: 0.5rem;
+}
+
+.tasks-page__list-item {
+  padding: 0.75rem 1rem;
+  background: white;
+  border-radius: 6px;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.tasks-page__list-item-name {
+  flex: 1;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.tasks-page__list-item:hover {
+  background: #e8e8e8;
+}
+
+.tasks-page__list-item--active {
+  background: #007bff;
+  color: white;
+  border-color: #0056b3;
+}
+
+.tasks-page__list-item--active:hover {
+  background: #0056b3;
+}
+
+.tasks-page__list-item-actions {
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tasks-page__list-item:hover .tasks-page__list-item-actions {
+  opacity: 1;
+}
+
+.tasks-page__list-item--active .tasks-page__list-item-actions {
+  opacity: 1;
+}
+
+.tasks-page__icon-btn {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.tasks-page__icon-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.tasks-page__list-item--active .tasks-page__icon-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.tasks-page__icon-btn--danger:hover {
+  background: rgba(220, 53, 69, 0.2);
+  color: #dc3545;
+}
+
+.tasks-page__list-item-edit {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.tasks-page__list-item-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.tasks-page__list-item-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.tasks-page__add-list {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid #e0e0e0;
+}
+
+.tasks-page__add-list-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.tasks-page__add-list-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.tasks-page__content {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.tasks-page__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .tasks-page {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .tasks-page__sidebar {
+    height: auto;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .tasks-page__sidebar {
+    background: #1a1a1a;
+  }
+
+  .tasks-page__sidebar-header {
+    border-bottom-color: #333;
+  }
+
+  .tasks-page__sidebar-header h2 {
+    color: #fff;
+  }
+
+  .tasks-page__user {
+    color: #aaa;
+  }
+
+  .tasks-page__list-item {
+    background: #2a2a2a;
+    color: #fff;
+  }
+
+  .tasks-page__list-item:hover {
+    background: #333;
+  }
+
+  .tasks-page__list-item--active {
+    background: #007bff;
+    color: white;
+  }
+
+  .tasks-page__list-item--active:hover {
+    background: #0056b3;
+  }
+
+  .tasks-page__list-item-edit {
+    background: #2a2a2a;
+  }
+
+  .tasks-page__list-item-input,
+  .tasks-page__add-list-input {
+    background: #1a1a1a;
+    border-color: #444;
+    color: #fff;
+  }
+
+  .tasks-page__list-item-input:focus,
+  .tasks-page__add-list-input:focus {
+    border-color: #5ba3ff;
+  }
+
+  .tasks-page__add-list {
+    border-top-color: #333;
+  }
+
+  .tasks-page__content {
+    background: #1a1a1a;
+  }
+
+  .tasks-page__empty {
+    color: #aaa;
+  }
+}
+
