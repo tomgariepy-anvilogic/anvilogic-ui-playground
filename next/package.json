@@ -10,19 +10,19 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "next": "^16.0.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
-    "zustand": "^5.0.8",
-    "next": "^14.0.0"
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "typescript": "^5.2.2",
-    "eslint": "^8.0.0",
-    "eslint-config-next": "^14.0.0"
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.4",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.0.3",
+    "typescript": "^5.2.2"
   },
   "keywords": [
     "react",
@@ -32,4 +32,3 @@
   "author": "",
   "license": "MIT"
 }
-
