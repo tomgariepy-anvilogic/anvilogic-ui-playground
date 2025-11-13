@@ -109,12 +109,16 @@ type TaskStore = {
 
 type TaskStoreApi = ReturnType<typeof createTaskStore>;
 
-const createTaskStore = (listId: number | null, listName: string) => {
+const createTaskStore = (
+  listId: number | null,
+  listName: string,
+  initialTasks?: TaskItem[]
+) => {
   return createStore<TaskStore>((set, get) => ({
-    tasks: [],
+    tasks: initialTasks || [],
     isLoading: false,
     error: null,
-    isFetched: false,
+    isFetched: !!initialTasks, // If we have initial data, mark as fetched
     listId,
     listName,
 
@@ -257,16 +261,18 @@ type TaskStoreProviderProps = {
   children: ReactNode;
   listId: number | null;
   listName: string;
+  initialTasks?: TaskItem[];
 };
 
 export const TaskStoreProvider = ({
   children,
   listId,
   listName,
+  initialTasks,
 }: TaskStoreProviderProps) => {
   const storeRef = useRef<TaskStoreApi>();
   if (!storeRef.current) {
-    storeRef.current = createTaskStore(listId, listName);
+    storeRef.current = createTaskStore(listId, listName, initialTasks);
   }
 
   return (

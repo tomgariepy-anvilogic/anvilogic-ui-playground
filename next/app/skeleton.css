@@ -1,0 +1,127 @@
+/* Base skeleton animation */
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0.5; 
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: pulse 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+.skeleton-item {
+  background: #fafbfc;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-card {
+  background-color: #fafbfc;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem;
+}
+
+/* Skeleton size variants */
+.skeleton--h32 { height: 32px; }
+.skeleton--h36 { height: 36px; }
+.skeleton--h38 { height: 38px; }
+.skeleton--h40 { height: 40px; }
+.skeleton--h44 { height: 44px; }
+.skeleton--h48 { height: 48px; }
+.skeleton--h60 { height: 60px; }
+.skeleton--h200 { height: 200px; }
+
+.skeleton--h20 { height: 20px; }
+.skeleton--h24 { height: 24px; }
+
+.skeleton--w50 { width: 50px; }
+.skeleton--w60 { width: 60px; }
+.skeleton--w100 { width: 100px; }
+.skeleton--w120 { width: 120px; }
+.skeleton--w140 { width: 140px; }
+.skeleton--w150 { width: 150px; }
+.skeleton--w180 { width: 180px; }
+.skeleton--w200 { width: 200px; }
+.skeleton--w220 { width: 220px; }
+.skeleton--w300 { width: 300px; }
+.skeleton--w-full { width: 100%; }
+
+.skeleton--flex-1 { flex: 1; }
+
+/* Skeleton spacing */
+.skeleton--mb-sm { margin-bottom: 0.5rem; }
+.skeleton--mb-md { margin-bottom: 1rem; }
+.skeleton--mb-lg { margin-bottom: 2rem; }
+.skeleton--mr-sm { margin-right: 0.5rem; }
+.skeleton--mt-md { margin-top: 1rem; }
+
+/* Layout utilities */
+.skeleton-container {
+  padding: 1rem;
+}
+
+.skeleton-flex {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.skeleton-flex--center {
+  display: flex;
+  justify-content: center;
+}
+
+.skeleton-flex--between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.skeleton-flex--wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.skeleton-item-wrapper {
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.skeleton-center {
+  text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .skeleton {
+    background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  }
+
+  .skeleton-item {
+    background: #2a2a2a;
+  }
+
+  .skeleton-card {
+    background-color: #2a2a2a;
+    border-color: #333;
+  }
+}
+

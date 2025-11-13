@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/common/Header";
 import "./globals.css";
+import "./skeleton.css";
 
 export const metadata: Metadata = {
   title: "Next.js TypeScript Sample App",

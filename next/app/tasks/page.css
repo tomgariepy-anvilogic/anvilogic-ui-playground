@@ -42,7 +42,7 @@
 
 .tasks-page__list-item {
   padding: 0.75rem 1rem;
-  background: white;
+  background: #fafbfc;
   border-radius: 6px;
   transition: all 0.2s;
   border: 2px solid transparent;
@@ -60,7 +60,7 @@
 }
 
 .tasks-page__list-item:hover {
-  background: #e8e8e8;
+  background: #eff1f3;
 }
 
 .tasks-page__list-item--active {
@@ -118,7 +118,7 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  background: white;
+  background: #fafbfc;
   padding: 0.5rem;
   border-radius: 6px;
 }

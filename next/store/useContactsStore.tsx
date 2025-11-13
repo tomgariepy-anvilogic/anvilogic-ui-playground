@@ -64,12 +64,12 @@ type ContactsStore = {
   deleteContact: (id: number) => Promise<void>;
 };
 
-export const createContactsStore = () => {
+export const createContactsStore = (initialContacts?: User[]) => {
   return createStore<ContactsStore>((set, get) => ({
-    contacts: [],
+    contacts: initialContacts || [],
     isLoading: false,
     error: null,
-    isFetched: false,
+    isFetched: !!initialContacts, // If we have initial data, mark as fetched
 
     fetchContacts: () => {
       const state = get();
@@ -187,12 +187,14 @@ const ContactsStoreContext = createContext<ContactsStoreApi | undefined>(
 
 export const ContactsStoreProvider = ({
   children,
+  initialContacts,
 }: {
   children: ReactNode;
+  initialContacts?: User[];
 }) => {
   const storeRef = useRef<ContactsStoreApi>();
   if (!storeRef.current) {
-    storeRef.current = createContactsStore();
+    storeRef.current = createContactsStore(initialContacts);
   }
 
   return (

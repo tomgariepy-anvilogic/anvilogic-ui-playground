@@ -5,11 +5,13 @@ import { FiPlus } from "react-icons/fi";
 import { TaskStoreProvider, useTaskStore } from "@/store/useTaskStore";
 import TaskListItem from "../TaskListItem";
 import Button from "@/components/common/Button";
+import { TaskItem } from "@/lib/types";
 import "./TaskList.css";
 
 type TaskListProps = {
   listId: number | null;
   listName: string;
+  initialTasks?: TaskItem[];
 };
 
 const TaskListContent = () => {
@@ -108,9 +110,14 @@ const TaskListContent = () => {
   );
 };
 
-const TaskList = ({ listId, listName }: TaskListProps) => {
+const TaskList = ({ listId, listName, initialTasks }: TaskListProps) => {
   return (
-    <TaskStoreProvider key={listId} listId={listId} listName={listName}>
+    <TaskStoreProvider
+      key={listId}
+      listId={listId}
+      listName={listName}
+      initialTasks={initialTasks}
+    >
       <TaskListContent />
     </TaskStoreProvider>
   );

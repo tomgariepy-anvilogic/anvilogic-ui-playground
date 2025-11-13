@@ -1,10 +1,10 @@
 .user-card {
-  border: 1px solid #ddd;
+  border: 1px solid #e8e8e8;
   border-radius: 8px;
   padding: 1.5rem;
   margin: 1rem;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fafbfc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s;
   animation: user-card-fade-in 0.3s ease-out forwards;
   opacity: 0;
@@ -19,7 +19,7 @@
 }
 
 .user-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .user-card__header {
