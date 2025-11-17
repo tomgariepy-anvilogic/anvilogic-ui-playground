@@ -1,18 +1,19 @@
-# React & Next.js Playground
+# UI Projects Playground
 
-A comparative implementation of a task management application built with modern React frameworks and TypeScript. This repository demonstrates the same application architecture implemented in both **Vite + React Router** and **Next.js App Router**, showcasing the differences and advantages of each approach.
+A collection of UI projects and experiments built with modern frameworks and TypeScript. This repository currently features a comparative implementation of a task management application built with both **Vite + React Router** and **Next.js App Router**, showcasing the differences and advantages of each approach.
 
 ## 🎯 Purpose
 
 This repository serves as:
-- **Learning resource** for comparing Vite and Next.js development patterns
-- **Migration example** showing how to convert a Vite app to Next.js
-- **Practical demonstration** of modern React development with TypeScript, state management, and routing
-- **Reference implementation** for task management with CRUD operations, state persistence, and error handling
+- **Experimentation space** for exploring different UI frameworks and patterns
+- **Learning resource** for comparing development approaches (Vite vs Next.js, CSR vs SSR, etc.)
+- **Migration examples** showing how to convert between frameworks
+- **Practical demonstrations** of modern web development with TypeScript, state management, and routing
+- **Reference implementations** for common patterns like CRUD operations, state persistence, and error handling
 
 ## 📁 Projects
 
-### 1. Vite App (`/vite`)
+### 1. React + Vite App (`/vite`)
 
 A client-side React application built with Vite 7, React Router 6, and Zustand.
 
@@ -41,7 +42,7 @@ npm run dev      # http://localhost:5173
 
 ---
 
-### 2. Next.js App (`/next`)
+### 2. React + Next.js App (`/next`)
 
 A server-side rendered Next.js application with API routes and optimized standalone builds.
 
