@@ -6,11 +6,12 @@ import { TaskItem } from "@/lib/types";
 // GET /api/tasks/[listId] - Fetch all tasks for a list
 export async function GET(
   request: NextRequest,
-  { params }: { params: { listId: string } }
+  { params }: { params: Promise<{ listId: string }> }
 ) {
   await delay(800);
 
-  const listId = parseInt(params.listId);
+  const { listId: listIdString } = await params;
+  const listId = parseInt(listIdString);
 
   if (mockTaskDatabase[listId]) {
     // Deep clone and restore Date objects
@@ -29,11 +30,12 @@ export async function GET(
 // POST /api/tasks/[listId] - Add a new task
 export async function POST(
   request: NextRequest,
-  { params }: { params: { listId: string } }
+  { params }: { params: Promise<{ listId: string }> }
 ) {
   await delay(500);
 
-  const listId = parseInt(params.listId);
+  const { listId: listIdString } = await params;
+  const listId = parseInt(listIdString);
   const { text } = await request.json();
 
   const newTask: TaskItem = {

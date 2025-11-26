@@ -195,7 +195,7 @@ export const ContactsStoreProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const storeRef = useRef<ContactsStoreApi>();
+  const storeRef = useRef<ContactsStoreApi>(undefined);
   if (!storeRef.current) {
     storeRef.current = createContactsStore();
   }

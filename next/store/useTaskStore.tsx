@@ -270,7 +270,7 @@ export const TaskStoreProvider = ({
   listName,
   initialTasks,
 }: TaskStoreProviderProps) => {
-  const storeRef = useRef<TaskStoreApi>();
+  const storeRef = useRef<TaskStoreApi>(undefined);
   if (!storeRef.current) {
     storeRef.current = createTaskStore(listId, listName, initialTasks);
   }

@@ -5,7 +5,7 @@ import { delay, simulateRandomError } from "@/lib/api-utils";
 // PATCH /api/tasks/[listId]/[taskId] - Update a task (toggle or edit text)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { listId: string; taskId: string } }
+  { params }: { params: Promise<{ listId: string; taskId: string }> }
 ) {
   await delay(300);
 
@@ -18,8 +18,9 @@ export async function PATCH(
     );
   }
 
-  const listId = parseInt(params.listId);
-  const taskId = parseInt(params.taskId);
+  const { listId: listIdString, taskId: taskIdString } = await params;
+  const listId = parseInt(listIdString);
+  const taskId = parseInt(taskIdString);
   const body = await request.json();
 
   if (mockTaskDatabase[listId]) {
@@ -44,12 +45,13 @@ export async function PATCH(
 // DELETE /api/tasks/[listId]/[taskId] - Delete a task
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { listId: string; taskId: string } }
+  { params }: { params: Promise<{ listId: string; taskId: string }> }
 ) {
   await delay(400);
 
-  const listId = parseInt(params.listId);
-  const taskId = parseInt(params.taskId);
+  const { listId: listIdString, taskId: taskIdString } = await params;
+  const listId = parseInt(listIdString);
+  const taskId = parseInt(taskIdString);
 
   if (mockTaskDatabase[listId]) {
     mockTaskDatabase[listId] = mockTaskDatabase[listId].filter(
@@ -60,4 +62,3 @@ export async function DELETE(
 
   return NextResponse.json({ error: "List not found" }, { status: 404 });
 }
-

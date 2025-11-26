@@ -192,7 +192,7 @@ export const ContactsStoreProvider = ({
   children: ReactNode;
   initialContacts?: User[];
 }) => {
-  const storeRef = useRef<ContactsStoreApi>();
+  const storeRef = useRef<ContactsStoreApi>(undefined);
   if (!storeRef.current) {
     storeRef.current = createContactsStore(initialContacts);
   }

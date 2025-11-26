@@ -5,7 +5,7 @@ import { delay, simulateRandomError } from "@/lib/api-utils";
 // PATCH /api/contacts/[id] - Update a contact
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await delay(400);
 
@@ -18,7 +18,8 @@ export async function PATCH(
     );
   }
 
-  const id = parseInt(params.id);
+  const { id: idString } = await params;
+  const id = parseInt(idString);
   const updates = await request.json();
 
   const contact = mockContactDatabase.find((c) => c.id === id);
@@ -33,11 +34,12 @@ export async function PATCH(
 // DELETE /api/contacts/[id] - Delete a contact
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await delay(400);
 
-  const id = parseInt(params.id);
+  const { id: idString } = await params;
+  const id = parseInt(idString);
   const index = mockContactDatabase.findIndex((c) => c.id === id);
 
   if (index !== -1) {
